@@ -11,33 +11,40 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
-        <action
-            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/nav_home_second" />
+<!--        <action-->
+<!--            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"-->
+<!--            app:destination="@id/nav_home_second" />-->
     </fragment>
-    <fragment
-        android:id="@+id/nav_home_second"
-        android:name="com.example.movieshub.ui.home.HomeSecondFragment"
-        android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second">
-        <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_home" />
+<!--    <fragment-->
+<!--        android:id="@+id/nav_home_second"-->
+<!--        android:name="com.example.movieshub.ui.home.HomeSecondFragment"-->
+<!--        android:label="@string/home_second"-->
+<!--        tools:layout="@layout/fragment_home_second">-->
+<!--        <action-->
+<!--            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"-->
+<!--            app:destination="@id/nav_home" />-->
 
-        <argument
-            android:name="myArg"
-            app:argType="string" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.movieshub.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+<!--        <argument-->
+<!--            android:name="myArg"-->
+<!--            app:argType="string" />-->
+<!--    </fragment>-->
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.movieshub.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_recent"
+        android:name="com.example.movieshub.ui.recent.RecentFragment"
+        android:label="@string/menu_recent"
+        tools:layout="@layout/fragment_recent" />
+
+    <fragment
+        android:id="@+id/nav_cinemas"
+        android:name="com.example.movieshub.ui.cinemas.CinemasFragment"
+        android:label="@string/menu_cinemas"
+        tools:layout="@layout/fragment_cinemas" />
+
+    <fragment
+        android:id="@+id/nav_favorites"
+        android:name="com.example.movieshub.ui.favorites.FavoritesFragment"
+        android:label="@string/menu_favorites"
+        tools:layout="@layout/fragment_favorites" />
+
 </navigation>
