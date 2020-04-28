@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.movieshub.R;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.movieshub.activity.SearchMovieActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
                     Intent intent = new Intent(getContext(), SearchMovieActivity.class);
                     intent.putExtra("keyword", query);
                     startActivity(intent);
+                    searchView.clearFocus();
                 }
                 return false;
             }
