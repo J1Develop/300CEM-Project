@@ -39,7 +39,7 @@ public class CinemasFragment extends Fragment {
         final Spinner circuitSpinner = root.findViewById(R.id.spinner_circuits);
         final ListView cinemas = root.findViewById(R.id.list_view_cinemas);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data_dummy);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, data_dummy);
         cinemas.setAdapter(arrayAdapter);
 
         ArrayAdapter<CharSequence> regions = ArrayAdapter.createFromResource(getContext(), R.array.regions, android.R.layout.simple_spinner_item);
