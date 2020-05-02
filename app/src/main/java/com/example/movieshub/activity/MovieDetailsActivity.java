@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.movieshub.Constant;
+import com.example.movieshub.util.Constant;
 import com.example.movieshub.R;
 import com.squareup.picasso.Picasso;
 
@@ -110,7 +110,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void getData(String imdbID) {
-        HttpUrl.Builder builder = HttpUrl.parse(Constant.API_URL).newBuilder();
+        HttpUrl.Builder builder = HttpUrl.parse(Constant.API_URL_MOVIE).newBuilder();
         builder.addQueryParameter(Constant.KEY_API_KEY, Constant.VALUE_API_KEY)
                 .addQueryParameter(Constant.KEY_IMDB_ID, imdbID);
 

@@ -1,7 +1,13 @@
-package com.example.movieshub;
+package com.example.movieshub.util;
 
 public class Constant {
-    public static final String API_URL = "http://www.omdbapi.com";
+    public enum User{
+        Register, Authenticate;
+    }
+
+    public static final String API_URL_REGISTER = "https://movie-ground-backend-302cem.herokuapp.com/user/register";
+    public static final String API_URL_LOGIN = "https://movie-ground-backend-302cem.herokuapp.com/user/authenticate";
+    public static final String API_URL_MOVIE = "https://www.omdbapi.com";
 
     public static final String KEY_API_KEY = "apikey";
     public static final String VALUE_API_KEY = "a9f1d7ac";
