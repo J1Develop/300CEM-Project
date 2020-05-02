@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.movieshub.Constant;
+import com.example.movieshub.util.Constant;
 import com.example.movieshub.R;
 import com.example.movieshub.model.SearchItem;
 import com.example.movieshub.ui.home.SearchItemAdapter;
@@ -247,7 +247,7 @@ public class SearchMovieActivity extends AppCompatActivity {
     }
 
     private void getMovies(int page) {
-        HttpUrl.Builder builder = HttpUrl.parse(Constant.API_URL).newBuilder();
+        HttpUrl.Builder builder = HttpUrl.parse(Constant.API_URL_MOVIE).newBuilder();
         builder.addQueryParameter(Constant.KEY_API_KEY, Constant.VALUE_API_KEY)
                 .addQueryParameter(Constant.KEY_MEDIA_TYPE, Constant.VALUE_MEDIA_TYPE)
                 .addQueryParameter(Constant.KEY_KEYWORD, keyword)
@@ -263,7 +263,6 @@ public class SearchMovieActivity extends AppCompatActivity {
         okHttpClient.newCall(REQUEST).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.i("On", "Failure");
                 Log.i("IOException", e.getMessage());
                 e.printStackTrace();
                 runOnUiThread(new Runnable() {

@@ -7,11 +7,21 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
+    <string name="menu_comment">Comment</string>
     <string name="menu_recent">Recent</string>
     <string name="menu_cinemas">Cinemas</string>
     <string name="menu_favorites">Favorites</string>
+    <string name="menu_setting">Setting</string>
 
     <string name="home_second">Home Second</string>
+
+    <string name="login_logo">Logo</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_pwd">Password</string>
+    <string name="action_bar_title_login">Sign in</string>
+    <string name="btn_sign_in">Sign in</string>
+    <string name="btn_sign_up">Sign up</string>
+    <string name="btn_bio_login">Biometric Login</string>
 
     <string-array name="sort_options">
         <item>Title</item>
@@ -39,4 +49,36 @@
         <item>Newport</item>
         <item>Others</item>
     </string-array>
+
+    <string-array name="setting">
+        <item>Language</item>
+        <item>Logout</item>
+    </string-array>
+
+    <string-array name="app_lang">
+        <item>English</item>
+        <item>Chinese</item>
+    </string-array>
+
+    <string name="user_pref">user_pref</string>
+    <string name="logged_in">logged_in</string>
+
+    <string name="register_success">Register Successful</string>
+    <string name="register_failure_username">Try another username</string>
+
+    <string name="btn_authenticate">Login</string>
+
+    <string name="biometric_title">Login</string>
+    <string name="biometric_subtitle">Login to your Movie Hub account</string>
+    <string name="biometric_description">Place finger on the home button to verify identity</string>
+    <string name="biometric_negative_button_text">CANCEL</string>
+
+    <string name="biometric_failed">Fingerprint not recognized</string>
+    <string name="biometric_error_sdk_not_supported">Sdk version not supported</string>
+    <string name="biometric_error_hardware_not_supported">Device does not support biometric authentication</string>
+    <string name="biometric_error_fingerprint_not_available">Fingerprint is not registered in device</string>
+    <string name="biometric_error_permission_not_granted">Permission is not granted by user</string>
+    <string name="biometric_failure">Login not successful</string>
+    <string name="biometric_cancelled">Authentication cancelled by user</string>
+    <string name="biometric_success">Login Successful</string>
 </resources>

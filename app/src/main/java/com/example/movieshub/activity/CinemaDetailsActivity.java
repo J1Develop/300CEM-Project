@@ -1,4 +1,4 @@
-package com.example.movieshub.ui.cinemas;
+package com.example.movieshub.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

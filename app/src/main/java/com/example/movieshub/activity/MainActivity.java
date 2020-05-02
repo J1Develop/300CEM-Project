@@ -1,8 +1,6 @@
 package com.example.movieshub.activity;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 
 import com.example.movieshub.R;
 import com.google.android.material.navigation.NavigationView;
@@ -28,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_recent,
                 R.id.nav_cinemas,
-                R.id.nav_favorites)
+                R.id.nav_favorites,
+                R.id.nav_setting)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -45,14 +43,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Log.d("Back on main", "Pressed");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override
