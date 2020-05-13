@@ -1,6 +1,5 @@
 package com.example.movieshub.activity;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -67,39 +66,30 @@ public class LoginActivity extends AppCompatActivity implements BiometricCallbac
 
         sharedPreferences = getSharedPreferences(getString(R.string.user_pref), MODE_PRIVATE);
         if (sharedPreferences.getBoolean(getString(R.string.logged_in), false))
-            startMainActivity();
+            startMainActivity(sharedPreferences.getString(getString(R.string.identity), null));
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validField(txtUname) && validField(txtPwd))
-                    progressBar.setVisibility(View.VISIBLE);
-                    authenticate(Constant.User.Authenticate, txtUname.getText().toString(), txtPwd.getText().toString());
-            }
+        btnSignIn.setOnClickListener(v -> {
+            if (validField(txtUname) && validField(txtPwd))
+                progressBar.setVisibility(View.VISIBLE);
+                authenticate(Constant.User.Authenticate, txtUname.getText().toString(), txtPwd.getText().toString());
         });
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validField(txtUname) && validField(txtPwd))
-                    progressBar.setVisibility(View.VISIBLE);
-                    authenticate(Constant.User.Register, txtUname.getText().toString(), txtPwd.getText().toString());
-            }
+        btnSignUp.setOnClickListener(v -> {
+            if (validField(txtUname) && validField(txtPwd))
+                progressBar.setVisibility(View.VISIBLE);
+                authenticate(Constant.User.Register, txtUname.getText().toString(), txtPwd.getText().toString());
         });
 
-        btnBioLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BiometricBuilder biometricBuilder = new BiometricBuilder(LoginActivity.this);
-                biometricBuilder
-                        .setTitle(getString(R.string.biometric_title))
-                        .setSubtitle(getString(R.string.biometric_subtitle))
-                        .setDescription(getString(R.string.biometric_description))
-                        .setNegativeButtonText(getString(R.string.biometric_negative_button_text));
+        btnBioLogin.setOnClickListener(v -> {
+            BiometricBuilder biometricBuilder = new BiometricBuilder(LoginActivity.this);
+            biometricBuilder
+                    .setTitle(getString(R.string.biometric_title))
+                    .setSubtitle(getString(R.string.biometric_subtitle))
+                    .setDescription(getString(R.string.biometric_description))
+                    .setNegativeButtonText(getString(R.string.biometric_negative_button_text));
 
-                biometricManager = biometricBuilder.build();
-                biometricManager.authenticate(LoginActivity.this);
-            }
+            biometricManager = biometricBuilder.build();
+            biometricManager.authenticate(LoginActivity.this);
         });
     }
 
@@ -157,13 +147,23 @@ public class LoginActivity extends AppCompatActivity implements BiometricCallbac
     private boolean validField(TextView target) {
         boolean isValid = TextUtils.getTrimmedLength(target.getText().toString()) > 0;
         if (!isValid)
-            target.setError("Please fill this field");
+            target.setError(getString(R.string.error_empty_field));
         return isValid;
     }
 
     private void startMainActivity() {
-        Toast.makeText(getApplicationContext(), getString(R.string.biometric_success), Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startMainActivity("user001");
+    }
+
+    private void startMainActivity(String identity) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.logged_in), true)
+                .putString(getString(R.string.identity), identity)
+                .commit();
+
+        Toast.makeText(getApplicationContext(), getString(R.string.biometric_success, identity), Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -173,9 +173,10 @@ public class LoginActivity extends AppCompatActivity implements BiometricCallbac
         try {
             jsonObject.put("username", username);
             jsonObject.put("password", pwd);
-        } catch (JSONException e)  {
-            e.printStackTrace();
+        } catch (JSONException jse)  {
+            jse.printStackTrace();
         }
+
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
 
         String url = null;
@@ -198,51 +199,41 @@ public class LoginActivity extends AppCompatActivity implements BiometricCallbac
             public void onFailure(Call call, IOException e) {
                 Log.i("IOException", e.getMessage());
                 e.printStackTrace();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "Failure !", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, getString(R.string.toast_failure), Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String resString = response.body().string();
-                Log.i("Res", resString);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.GONE);
-                        try {
-                            JSONObject result = new JSONObject(resString);
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    try {
+                        JSONObject result = new JSONObject(resString);
 
-                            if (result.getBoolean("result")) {
-                                switch (type) {
-                                    case Register:
-                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.register_success), Toast.LENGTH_LONG).show();
-                                        break;
-                                    case Authenticate:
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putBoolean("logged_in", true).commit();
-                                        startMainActivity();
-                                        break;
-                                }
-                            } else {
-                                switch (type) {
-                                    case Register:
-                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.register_failure_username), Toast.LENGTH_LONG).show();
-                                        break;
-                                    case Authenticate:
-                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.biometric_failure), Toast.LENGTH_LONG).show();
-                                        break;
-                                }
+                        if (result.getBoolean("result")) {
+                            switch (type) {
+                                case Register:
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.register_success), Toast.LENGTH_LONG).show();
+                                    break;
+                                case Authenticate:
+                                    String identity = result.getString(getString(R.string.identity));
+                                    startMainActivity(identity);
+                                    break;
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.d("Error", e.getMessage());
+                        } else {
+                            switch (type) {
+                                case Register:
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.register_failure_username), Toast.LENGTH_LONG).show();
+                                    break;
+                                case Authenticate:
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.biometric_failure), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.d("Error", e.getMessage());
                     }
                 });
             }

@@ -9,18 +9,18 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.movieshub.util.Constant;
 import com.example.movieshub.R;
 import com.example.movieshub.model.SearchItem;
-import com.example.movieshub.ui.home.SearchItemAdapter;
+import com.example.movieshub.util.SearchItemAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,8 +28,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,6 +37,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class SearchMovieActivity extends AppCompatActivity {
+
     private OkHttpClient okHttpClient;
 
     private final String INTENT_EXTRA_KEYWORD = "keyword";
@@ -53,9 +52,11 @@ public class SearchMovieActivity extends AppCompatActivity {
 
     private SearchItemAdapter searchItemAdapter;
 
+    private ProgressBar progressBar;
+
+    private LinearLayout linearLayout;
+
     private SearchView searchView;
-    private Spinner spinnerSortBy, spinnerOrderBy;
-    private Button btnApply;
     private TextView textViewSearchMsg;
     private ListView listViewMovies;
     private TextView textViewErrMsg;
@@ -66,56 +67,34 @@ public class SearchMovieActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_movie);
 
+        progressBar = findViewById(R.id.progressBar);
+        linearLayout = findViewById(R.id.layout_content);
+
         searchView = findViewById(R.id.search_bar);
-        spinnerSortBy = findViewById(R.id.spinner_sort_by);
-        spinnerOrderBy = findViewById(R.id.spinner_order_by);
-        btnApply = findViewById(R.id.btn_filter_apply);
         listViewMovies = findViewById(R.id.list_view_movies);
         textViewErrMsg = findViewById(R.id.text_error_msg);
         textViewSearchMsg = findViewById(R.id.text_search_msg);
 
         button = new Button(this);
-        button.setText("Load more");
+        button.setText(getString(R.string.msg_load_more_data));
 
         Intent intent = getIntent();
         keyword = intent.getStringExtra(INTENT_EXTRA_KEYWORD);
-        getSupportActionBar().setTitle("Search of \"" + keyword + "\"");
+        getSupportActionBar().setTitle(getString(R.string.title_search_info, keyword));
         searchView.setQuery(keyword, false);
 
         okHttpClient = new OkHttpClient();
 
-        ArrayAdapter<CharSequence> sortOptions = ArrayAdapter.createFromResource(getApplicationContext(), R.array.sort_options, android.R.layout.simple_spinner_item);
-        sortOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerSortBy.setAdapter(sortOptions);
-
-        ArrayAdapter<CharSequence> orderOptions = ArrayAdapter.createFromResource(getApplicationContext(), R.array.order_options, android.R.layout.simple_spinner_item);
-        orderOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerOrderBy.setAdapter(orderOptions);
-
-        btnApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("Apply", "Clicked");
-                sortSearchResult("Title", true);
-            }
-        });
-
-        getMovies(currentPage);
+        requestMovies(currentPage);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d("q", query);
-                Log.d("k", keyword);
-                if (TextUtils.getTrimmedLength(query) > 0
-                        && query != null
-                        && query != ""
-                        && !query.equals(keyword)) {
-                    Log.i("Search", "Submit");
+                if (TextUtils.getTrimmedLength(query) > 0 && !query.equals(keyword)) {
                     keyword = query;
-                    getSupportActionBar().setTitle("Search of \"" + keyword + "\"");
-                    resetResult();
-                    getMovies(currentPage);
+                    getSupportActionBar().setTitle(getString(R.string.title_search_info, keyword));
+                    initSearchState();
+                    requestMovies(currentPage);
                 }
                 return false;
             }
@@ -126,29 +105,29 @@ public class SearchMovieActivity extends AppCompatActivity {
             }
         });
 
-        listViewMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), searchItems.get(position).getImdbID(), Toast.LENGTH_SHORT).show();
+        listViewMovies.setOnItemClickListener((parent, view, position, id) -> {
+            SearchItem searchItem = searchItems.get(position);
 
-                Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
-                intent.putExtra("imdbID", searchItems.get(position).getImdbID());
+            Bundle bundle = new Bundle();
+            bundle.putString("title", searchItem.getTitle());
+            bundle.putString("year", searchItem.getYear());
+            bundle.putString("imdbID", searchItem.getImdbID());
+            bundle.putString("type", searchItem.getType());
+            bundle.putString("poster", searchItem.getPoster());
 
-                startActivity(intent);
-            }
+            Intent intent1 = new Intent(SearchMovieActivity.this, MovieDetailsActivity.class);
+            intent1.putExtra("bundle", bundle);
+
+            startActivity(intent1);
         });
 
         listViewMovies.addFooterView(button);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("Button", "Clicked");
-                if (currentPage <= totalPage) {
-                    getMovies(currentPage);
-                } else {
-                    Toast.makeText(getApplicationContext(), "No more results", Toast.LENGTH_SHORT).show();
-                }
+        button.setOnClickListener(v -> {
+            if (!isLastPage()) {
+                requestMovies(currentPage);
+            } else {
+                Toast.makeText(SearchMovieActivity.this, getString(R.string.end_of_search_msg), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -159,30 +138,18 @@ public class SearchMovieActivity extends AppCompatActivity {
         finish();
     }
 
-    private void sortSearchResult(final String sortBy, boolean isAscending) {
-        Collections.sort(searchItems, new Comparator<SearchItem>() {
-            @Override
-            public int compare(SearchItem o1, SearchItem o2) {
-                if ("Title".equals(sortBy))
-                    return o1.getTitle().compareTo(o2.getTitle());
-                else
-                    return o1.getYear().compareTo(o2.getYear());
-            }
-        });
-        for (SearchItem item : searchItems)
-            Log.d("Sorted", item.getTitle());
+    private boolean isLastPage() {
+        return currentPage == totalPage;
     }
 
-    private void resetResult() {
+    private void initSearchState() {
         searchItems.clear();
         currentPage = 1;
     }
 
-    private void setResult(final String jsonString) {
+    private void showMovies(final String jsonString) {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
-
-            Log.i("Response", jsonObject.getString("Response"));
 
             boolean isSuccess = "True".equals(jsonObject.getString("Response"));
             if (isSuccess) {
@@ -203,50 +170,51 @@ public class SearchMovieActivity extends AppCompatActivity {
                     searchItems.add(new SearchItem(title, year, imdbID, type, poster));
                 }
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                        public void run() {
-                        textViewSearchMsg.setText(totalResults + " results of \"" + keyword + "\"");
-                        searchItemAdapter = new SearchItemAdapter(getApplicationContext(), R.layout.movie_list_item, searchItems);
+                runOnUiThread(() -> {
+                    textViewSearchMsg.setText(getString(R.string.title_search_count, totalResults, keyword));
+                    searchItemAdapter = new SearchItemAdapter(SearchMovieActivity.this, R.layout.movie_list_item, searchItems);
 
-                        if (currentPage > 1) {
-                            Parcelable parcelable = listViewMovies.onSaveInstanceState();
-                            listViewMovies.setAdapter(searchItemAdapter);
-                            listViewMovies.onRestoreInstanceState(parcelable);
-                        } else {
-                            listViewMovies.setAdapter(searchItemAdapter);
-                        }
-                        searchItemAdapter.notifyDataSetChanged();
-                        currentPage++;
+                    if (isLastPage())
+                        button.setEnabled(false);
+
+                    if (currentPage > 1) {
+                        Parcelable parcelable = listViewMovies.onSaveInstanceState();
+                        listViewMovies.setAdapter(searchItemAdapter);
+                        listViewMovies.onRestoreInstanceState(parcelable);
+                    } else {
+                        listViewMovies.setAdapter(searchItemAdapter);
+                        progressBar.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
                     }
+                    searchItemAdapter.notifyDataSetChanged();
+                    currentPage++;
+                    Toast.makeText(SearchMovieActivity.this, getString(R.string.toast_data_fetched), Toast.LENGTH_SHORT).show();
                 });
             } else {
                 final String error = jsonObject.getString("Error");
                 Log.i("Error", error);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        textViewSearchMsg.setVisibility(View.GONE);
-                        listViewMovies.setEmptyView(textViewErrMsg);
-                        textViewErrMsg.setText(error.toUpperCase());
-                    }
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    linearLayout.setVisibility(View.VISIBLE);
+                    textViewSearchMsg.setVisibility(View.GONE);
+                    listViewMovies.setEmptyView(textViewErrMsg);
+                    textViewErrMsg.setText(error.toUpperCase());
                 });
             }
         } catch (JSONException jse) {
             jse.printStackTrace();
             Log.d("JSON Error", jse.getMessage());
             Log.d("JSON Error", "Error to get JSON");
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "Error to get JSON", Toast.LENGTH_LONG).show();
-                }
+            runOnUiThread(() -> {
+                progressBar.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.VISIBLE);
+                Toast.makeText(SearchMovieActivity.this, getString(R.string.toast_json_err), Toast.LENGTH_LONG).show();
             });
         }
     }
 
-    private void getMovies(int page) {
+    private void requestMovies(int page) {
         HttpUrl.Builder builder = HttpUrl.parse(Constant.API_URL_MOVIE).newBuilder();
         builder.addQueryParameter(Constant.KEY_API_KEY, Constant.VALUE_API_KEY)
                 .addQueryParameter(Constant.KEY_MEDIA_TYPE, Constant.VALUE_MEDIA_TYPE)
@@ -258,8 +226,6 @@ public class SearchMovieActivity extends AppCompatActivity {
                 .url(builder.build().toString())
                 .build();
 
-        Log.i("URL", builder.build().toString());
-
         okHttpClient.newCall(REQUEST).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -268,7 +234,9 @@ public class SearchMovieActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Failure !", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(SearchMovieActivity.this, getString(R.string.toast_failure), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -277,10 +245,16 @@ public class SearchMovieActivity extends AppCompatActivity {
             public void onResponse(Call call, final Response response) {
                 try {
                     String resString = response.body().string();
-                    Log.i("Data", resString);
-                    setResult(resString);
+                    showMovies(resString);
                 } catch (IOException ioe) {
-                    Log.d("Error", "Error to get body");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            linearLayout.setVisibility(View.VISIBLE);
+                            Toast.makeText(SearchMovieActivity.this, getString(R.string.toast_failure), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

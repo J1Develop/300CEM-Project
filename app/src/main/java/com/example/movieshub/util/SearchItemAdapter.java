@@ -1,7 +1,6 @@
-package com.example.movieshub.ui.home;
+package com.example.movieshub.util;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

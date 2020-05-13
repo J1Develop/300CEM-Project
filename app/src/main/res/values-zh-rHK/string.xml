@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="toast_success">成功</string>
+    <string name="toast_failure">失敗</string>
+
+    <string name="dialog_btn_pos">是</string>
+    <string name="dialog_btn_neg">否</string>
+
+    <string name="app_name">電影分享社群</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Movies Hub</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="home_second">Home Second</string>
+
+    <string name="login_logo">Logo</string>
+
+    <string name="menu_home">主頁</string>
+    <string name="menu_comment">我的留言</string>
+    <string name="menu_recent">最近瀏覽</string>
+    <string name="menu_cinemas">電影院</string>
+    <string name="menu_favorites">我的最愛</string>
+    <string name="menu_setting">設定</string>
+    <string name="hint_username">用戶名稱</string>
+    <string name="hint_pwd">密碼</string>
+    <string name="action_bar_title_login">用戶登入</string>
+    <string name="btn_sign_in">登入</string>
+    <string name="btn_sign_up">註冊</string>
+    <string name="btn_bio_login">生物認證</string>
+
+    <string name="user_pref">user_pref</string>
+    <string name="logged_in">logged_in</string>
+    <string name="identity">identity</string>
+
+    <string name="error_empty_field">請輸入</string>
+
+    <string name="title_search_info">搜尋「%1$s」的結果</string>
+    <string name="title_search_count">%1$s項結果符合「%2$s」</string>
+
+    <string name="toast_data_fetched">載入完成</string>
+    <string name="toast_json_err">資料未能取得</string>
+
+    <string name="msg_load_more_data">載入更多</string>
+    <string name="end_of_search_msg">沒有更多</string>
+
+    <string name="alert_add_fav">加入我的最愛？</string>
+
+    <string name="toast_add_fav_success">電影已加入我的最愛</string>
+    <string name="toast_add_fav_failure">電影已在我的最愛</string>
+
+    <string name="title_review">留言: 「%1$s」</string>
+
+    <string name="dialog_title_post_review">留言</string>
+    <string name="dialog_msg_post_review">確認留言？</string>
+
+    <string name="toast_comment_success">留言成功</string>
+    <string name="toast_comment_failure">留言失敗</string>
+
+    <string name="toast_no_movie_cmt">沒有留言</string>
+    <string name="toast_no_movie_fav">沒有我的最愛</string>
+    <string name="toast_no_movie_recent">沒有最新瀏覽</string>
+
+    <string name="hint_text_review">說些甚麼</string>
+    <string name="btn_submit">留言</string>
+
+    <string name="dialog_title_remove_item">刪除「%1$s」？</string>
+
+    <string name="error_mismatch_field">數值不相符</string>
+
+    <string-array name="regions">
+        <item>香港</item>
+        <item>九龍</item>
+        <item>新界</item>
+    </string-array>
+
+    <string-array name="circuits">
+        <item>英皇戲院</item>
+        <item>MCL</item>
+        <item>UA</item>
+        <item>百老匯及AMC</item>
+        <item>嘉禾</item>
+        <item>Cinema City</item>
+        <item>新寶</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="setting">
+        <item>更改密碼</item>
+        <item>登出</item>
+    </string-array>
+
+    <string name="register_success">註冊成功</string>
+    <string name="register_failure_username">用戶名稱已被使用</string>
+
+    <string name="btn_authenticate">登入</string>
+    <string name="toast_logout">已登出</string>
+
+    <string name="hint_enter_pwd">輸入新密碼</string>
+    <string name="hint_re_enter_pwd">再輸入新密碼</string>
+
+    <string name="dialog_title_change_pwd">更改密碼</string>
+
+    <string name="toast_new_pwd_re_login">密碼已更改，請重新登入</string>
+
+    <string name="dialog_title_logout_title">登出「%1$s」？</string>
+
+    <string name="biometric_title">登入</string>
+    <string name="biometric_subtitle">登入你的電影分享群帳號</string>
+    <string name="biometric_description">請把你的手指放在主頁鍵</string>
+    <string name="biometric_negative_button_text">取消</string>
+
+    <string name="biometric_failed">生物認證認證失敗</string>
+    <string name="biometric_error_sdk_not_supported">系統版本不支援</string>
+    <string name="biometric_error_hardware_not_supported">設備不支援生物認證功能</string>
+    <string name="biometric_error_fingerprint_not_available">指紋尚未登記</string>
+    <string name="biometric_error_permission_not_granted">未能獲取用戶權限</string>
+    <string name="biometric_failure">登入失敗</string>
+    <string name="biometric_cancelled">取消認證</string>
+    <string name="biometric_success">登入成功，歡迎回來， %1$s</string>
+
+    <!-- String resource of Movie Details XML-->
+    <string name="btn_imdb">瀏覽 imdB</string>
+    <string name="btn_fav">加入我的最愛</string>
+    <string name="txt_view_genre">類型</string>
+    <string name="txt_view_plot">情節</string>
+    <string name="txt_view_production">製作公司</string>
+    <string name="txt_view_director">導演</string>
+    <string name="txt_view_actor">演員</string>
+    <string name="btn_comment">電影留言</string>
+
+    <!-- String resource of Circuit Details XML -->
+    <string name="txt_view_circuit_name">電影院名稱</string>
+    <string name="txt_view_circuit_address">電影院地址</string>
+    <string name="txt_view_circuit_tel">電影院電話號碼</string>
+    <string name="btn_open_map">查詢路線</string>
+</resources>
