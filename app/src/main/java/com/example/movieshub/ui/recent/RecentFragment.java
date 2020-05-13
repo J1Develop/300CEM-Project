@@ -156,7 +156,7 @@ public class RecentFragment extends Fragment {
                         getActivity().runOnUiThread(() -> {
                             progressBar.setVisibility(View.GONE);
                             listViewHistory.setVisibility(View.VISIBLE);
-                            Toast.makeText(getActivity(), getString(R.string.toast_json_err), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getString(R.string.toast_no_movie_recent), Toast.LENGTH_LONG).show();
                         });
                     }
 

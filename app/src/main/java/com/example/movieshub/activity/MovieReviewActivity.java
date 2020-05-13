@@ -164,7 +164,7 @@ public class MovieReviewActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             progressBar.setVisibility(View.GONE);
                             linearLayout.setVisibility(View.VISIBLE);
-                            Toast.makeText(MovieReviewActivity.this, getString(R.string.toast_data_fetched), Toast.LENGTH_LONG).show();
+                            Toast.makeText(MovieReviewActivity.this, getString(R.string.toast_no_movie_cmt), Toast.LENGTH_LONG).show();
                         });
                     }
                 } catch (JSONException e) {

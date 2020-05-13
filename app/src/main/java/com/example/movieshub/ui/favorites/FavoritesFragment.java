@@ -157,7 +157,7 @@ public class FavoritesFragment extends Fragment {
                         getActivity().runOnUiThread(() -> {
                             progressBar.setVisibility(View.GONE);
                             listViewFav.setVisibility(View.VISIBLE);
-                            Toast.makeText(getActivity(), getString(R.string.toast_json_err), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getString(R.string.toast_no_movie_fav), Toast.LENGTH_LONG).show();
                         });
                     }
 
