@@ -1,4 +1,10 @@
 <resources>
+    <string name="toast_success">Success</string>
+    <string name="toast_failure">Failure</string>
+
+    <string name="dialog_btn_pos">Yes</string>
+    <string name="dialog_btn_neg">No</string>
+
     <string name="app_name">Movies Hub</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -23,15 +29,39 @@
     <string name="btn_sign_up">Sign up</string>
     <string name="btn_bio_login">Biometric Login</string>
 
-    <string-array name="sort_options">
-        <item>Title</item>
-        <item>Year</item>
-    </string-array>
+    <string name="error_empty_field">Please fill this field</string>
 
-    <string-array name="order_options">
-        <item>Ascending</item>
-        <item>Descending</item>
-    </string-array>
+    <string name="title_search_info">Search of "%1$s"</string>
+    <string name="title_search_count">%1$s result of "%2$s"</string>
+
+    <string name="toast_data_fetched">Data Fetched</string>
+    <string name="toast_json_err">Error to get JSON</string>
+
+    <string name="msg_load_more_data">Load More</string>
+    <string name="end_of_search_msg">No more results</string>
+
+    <string name="alert_add_fav">Add To Favorite?</string>
+
+    <string name="toast_add_fav_success">Movie is added to Favorite</string>
+    <string name="toast_add_fav_failure">Movie is already added to Favorite</string>
+
+    <string name="title_review">Comment - %1$s</string>
+
+    <string name="dialog_title_post_review">Post Review</string>
+    <string name="dialog_msg_post_review">Confirm to submit?</string>
+    <string name="toast_comment_success">Comment is submitted</string>
+    <string name="toast_comment_failure">Fail to submit</string>
+
+    <string name="toast_no_movie_cmt">No Movie Comment</string>
+    <string name="toast_no_movie_fav">No Favorite Movie</string>
+    <string name="toast_no_movie_recent">No Recent Movie</string>
+
+    <string name="hint_text_review">Leave Your Comment</string>
+    <string name="btn_submit">Submit</string>
+
+    <string name="dialog_title_remove_item">Remove "%1$s"?</string>
+
+    <string name="error_mismatch_field">Fields are not matched</string>
 
     <string-array name="regions">
         <item>Hong Kong</item>
@@ -45,13 +75,13 @@
         <item>UA</item>
         <item>Broadway &amp; AMC</item>
         <item>Golden Harvest</item>
-        <item>CinemaCity</item>
+        <item>Cinema City</item>
         <item>Newport</item>
         <item>Others</item>
     </string-array>
 
     <string-array name="setting">
-        <item>Language</item>
+        <item>Change Password</item>
         <item>Logout</item>
     </string-array>
 
@@ -62,11 +92,22 @@
 
     <string name="user_pref">user_pref</string>
     <string name="logged_in">logged_in</string>
+    <string name="identity">identity</string>
 
     <string name="register_success">Register Successful</string>
     <string name="register_failure_username">Try another username</string>
 
     <string name="btn_authenticate">Login</string>
+    <string name="toast_logout">Logged out</string>
+
+    <string name="hint_enter_pwd">Enter New Password</string>
+    <string name="hint_re_enter_pwd">Enter New Password Again</string>
+
+    <string name="dialog_title_change_pwd">Change Password</string>
+
+    <string name="toast_new_pwd_re_login">Password changed, Please login again</string>
+
+    <string name="dialog_title_logout_title">Confirm to Logout as "%1$s"?</string>
 
     <string name="biometric_title">Login</string>
     <string name="biometric_subtitle">Login to your Movie Hub account</string>
@@ -80,5 +121,21 @@
     <string name="biometric_error_permission_not_granted">Permission is not granted by user</string>
     <string name="biometric_failure">Login not successful</string>
     <string name="biometric_cancelled">Authentication cancelled by user</string>
-    <string name="biometric_success">Login Successful</string>
+    <string name="biometric_success">Login Successful, Welcome back, %1$s</string>
+
+    <!-- String resource of Movie Details XML-->
+    <string name="btn_imdb">Show imdB</string>
+    <string name="btn_fav">Favorite</string>
+    <string name="txt_view_genre">Genre</string>
+    <string name="txt_view_plot">Plot</string>
+    <string name="txt_view_production">Production</string>
+    <string name="txt_view_director">Director</string>
+    <string name="txt_view_actor">Actor</string>
+    <string name="btn_comment">Comment</string>
+
+    <!-- String resource of View -->
+    <string name="txt_view_circuit_name">Circuit Name</string>
+    <string name="txt_view_circuit_address">Circuit Address</string>
+    <string name="txt_view_circuit_tel">Circuit Telephone</string>
+    <string name="btn_open_map">How to go</string>
 </resources>

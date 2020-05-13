@@ -4,9 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context=".activity.MovieDetailsActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/layout_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +54,7 @@
                 android:id="@+id/btn_imdb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="IMDb" />
+                android:text="@string/btn_imdb" />
 
             <Space
                 android:layout_width="0dp"
@@ -51,7 +65,7 @@
                 android:id="@+id/btn_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Favorite" />
+                android:text="@string/btn_fav" />
 
             <Space
                 android:layout_width="0dp"
@@ -121,7 +135,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="Genre"
+                android:text="@string/txt_view_genre"
                 android:textColor="@color/colorAccent"
                 android:textSize="12pt"
                 android:textStyle="bold" />
@@ -141,7 +155,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="Plot"
+                android:text="@string/txt_view_plot"
                 android:textColor="@color/colorAccent"
                 android:textSize="12pt"
                 android:textStyle="bold" />
@@ -161,7 +175,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="Production"
+                android:text="@string/txt_view_production"
                 android:textColor="@color/colorAccent"
                 android:textSize="12pt"
                 android:textStyle="bold" />
@@ -181,7 +195,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="Director"
+                android:text="@string/txt_view_director"
                 android:textColor="@color/colorAccent"
                 android:textSize="12pt"
                 android:textStyle="bold" />
@@ -201,7 +215,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="Actors"
+                android:text="@string/txt_view_actor"
                 android:textColor="@color/colorAccent"
                 android:textSize="12pt"
                 android:textStyle="bold" />
@@ -219,10 +233,12 @@
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/btn_reviews"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Reviews"/>
+        <Button
+            android:id="@+id/btn_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_comment" />
+
+    </LinearLayout>
 
 </LinearLayout>
