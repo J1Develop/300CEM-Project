@@ -71,20 +71,20 @@
     <string name="error_mismatch_field">數值不相符</string>
 
     <string-array name="regions">
-        <item>香港</item>
-        <item>九龍</item>
-        <item>新界</item>
+        <item>Hong Kong</item>
+        <item>Kowloon</item>
+        <item>New Territories</item>
     </string-array>
 
     <string-array name="circuits">
-        <item>英皇戲院</item>
+        <item>Emperor Cinemas</item>
         <item>MCL</item>
         <item>UA</item>
-        <item>百老匯及AMC</item>
-        <item>嘉禾</item>
+        <item>Broadway &amp; AMC</item>
+        <item>Golden Harvest</item>
         <item>Cinema City</item>
-        <item>新寶</item>
-        <item>其他</item>
+        <item>Newport</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="setting">

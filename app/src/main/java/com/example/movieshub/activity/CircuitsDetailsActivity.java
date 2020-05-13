@@ -46,11 +46,6 @@ public class CircuitsDetailsActivity extends AppCompatActivity implements Google
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
-        Log.i("Bundle", bundle.getString("cinema"));
-        Log.i("Bundle", bundle.getString("name"));
-        Log.i("Bundle", bundle.getString("region"));
-        Log.i("Bundle", bundle.getString("address"));
-        Log.i("Bundle", bundle.getString("tel"));
         
         textViewName = findViewById(R.id.text_view_name);
         textViewAddress = findViewById(R.id.text_view_address);

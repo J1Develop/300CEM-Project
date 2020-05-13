@@ -116,13 +116,12 @@ public class CinemasFragment extends Fragment {
 
     private void requestCinemas(final String cinema) {
         okHttpClient = new OkHttpClient();
-
         HttpUrl.Builder builder = HttpUrl.parse(Constant.API_URL_READ_CINEMA).newBuilder();
         builder.addQueryParameter("cinema", cinema);
 
-        Request request = new Request.Builder().url(builder.build().toString()).build();
+        final Request REQUEST = new Request.Builder().url(builder.build().toString()).build();
 
-        okHttpClient.newCall(request).enqueue(new Callback() {
+        okHttpClient.newCall(REQUEST).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("IOException", e.getMessage());
@@ -138,6 +137,7 @@ public class CinemasFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String resString = response.body().string();
+                Log.d("res", resString);
                 if (response.code() == 500) {
                     getActivity().runOnUiThread(() -> {
                         progressBar.setVisibility(View.GONE);
